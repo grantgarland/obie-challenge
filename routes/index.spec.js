@@ -7,12 +7,12 @@ app.use("/", routes);
 
 describe("routes", () => {
   const filteredAndFlattenedResult = {
-    key: "allstate",
+    key: "Allstate",
     carrier: "Allstate",
     state: "il",
     auto: true,
     fire: true,
-    flood: true,
+    flood: false,
   };
   it("GET /carriers - single policy", async () => {
     const { text } = await request(app).get("/carriers?state=il&coverage=auto");
@@ -23,10 +23,10 @@ describe("routes", () => {
 
   it("GET /carriers - multiple policies", async () => {
     const { text } = await request(app).get(
-      "/carriers?state=il&coverage=auto,flood,fire"
+      "/carriers?state=il&coverage=auto,fire"
     );
 
-    expect(JSON.parse(text).length).toEqual(3);
+    expect(JSON.parse(text).length).toEqual(5);
     expect(JSON.parse(text).shift()).toStrictEqual(filteredAndFlattenedResult);
   });
 });
